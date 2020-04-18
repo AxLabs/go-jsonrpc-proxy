@@ -9,6 +9,7 @@ import (
 var Config Configuration
 
 type Configuration struct {
+	BaseURL string          `json:"base-url"`
 	Methods []MethodsConfig `json:"methods"`
 }
 

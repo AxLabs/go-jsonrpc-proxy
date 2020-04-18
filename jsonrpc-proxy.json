@@ -1,4 +1,5 @@
 {
+  "base-url": "/",
   "methods": [
     {
       "name": "searchrawtransactions",

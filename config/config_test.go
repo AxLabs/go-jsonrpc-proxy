@@ -7,6 +7,7 @@ import (
 
 func TestLoadConfig_Valid(t *testing.T) {
 	json := `{
+		"base-url": "/",
 		"methods": [
 			{
 			  "name": "searchrawtransactions",
@@ -26,6 +27,7 @@ func TestLoadConfig_Valid(t *testing.T) {
 		]
 	}`
 	config := LoadConfig(json)
+	assert.Equal(t, config.BaseURL, "/")
 	assert.Equal(t, config.Methods[0].Name, "searchrawtransactions")
 	assert.Equal(t, config.Methods[0].ProxyTo[0], "http://localhost:2021")
 	assert.Equal(t, config.Methods[0].ProxyTo[1], "http://localhost:2022")
@@ -40,6 +42,7 @@ func TestLoadConfig_Valid(t *testing.T) {
 
 func TestLoadConfig_MissingAttributes(t *testing.T) {
 	json := `{
+		"base-url": "/",
 		"methods": [
 			{
 			  "name": "searchrawtransactions",
@@ -54,6 +57,7 @@ func TestLoadConfig_MissingAttributes(t *testing.T) {
 		]
 	}`
 	config := LoadConfig(json)
+	assert.Equal(t, config.BaseURL, "/")
 	assert.Equal(t, config.Methods[0].Name, "searchrawtransactions")
 	assert.Equal(t, config.Methods[0].ProxyTo[0], "http://localhost:2021")
 	assert.Equal(t, config.Methods[0].ProxyTo[1], "http://localhost:2022")

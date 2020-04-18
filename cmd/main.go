@@ -16,7 +16,7 @@ func main() {
 	config := config.LoadConfigFile(configFilePath)
 	server.LoadMap(config)
 
-	http.HandleFunc("/", server.HandleRequestAndRedirect)
+	http.HandleFunc(config.BaseURL, server.HandleRequestAndRedirect)
 	if err := http.ListenAndServe(getListenAddress(), nil); err != nil {
 		panic(err)
 	}
