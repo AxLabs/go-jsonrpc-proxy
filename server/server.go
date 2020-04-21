@@ -20,12 +20,15 @@ var methodNameCache *cache.Cache
 
 var methodPriorityListOrder []MethodRegExp
 
+// MethodRegExp type representing a JSON-RPC method with a compiled
+// RegExp entity
 type MethodRegExp struct {
 	Name       string
 	NameRegexp regexp.Regexp
 	ProxyTo    []string
 }
 
+// NewMethodRegExp returns a new MethodRegExp instance
 func NewMethodRegExp(name string, nameRegexp regexp.Regexp, proxyTo []string) MethodRegExp {
 	return MethodRegExp{
 		Name:       name,
@@ -34,6 +37,7 @@ func NewMethodRegExp(name string, nameRegexp regexp.Regexp, proxyTo []string) Me
 	}
 }
 
+// LoadMap loads the configuration to an array of MethodRegExp
 func LoadMap(config config.Configuration) {
 	methodNameCache = cache.New(5*time.Minute, 5*time.Minute)
 	methodPriorityListOrder = []MethodRegExp{}
@@ -93,8 +97,8 @@ func HandleRequestAndRedirect(res http.ResponseWriter, req *http.Request) {
 	url, errRedir := getRedirectTo(requestPayload)
 
 	if errRedir != nil {
-		errObjBytes, errJsonMarshal := json.Marshal(errRedir)
-		if errJsonMarshal != nil {
+		errObjBytes, errJSONMarshal := json.Marshal(errRedir)
+		if errJSONMarshal != nil {
 			internalError := jsonrpc.InternalError()
 			internalErrorBytes, _ := json.Marshal(internalError)
 			res.Write(internalErrorBytes)
@@ -105,6 +109,13 @@ func HandleRequestAndRedirect(res http.ResponseWriter, req *http.Request) {
 	}
 
 	serveReverseProxy(*url, res, req)
+}
+
+// HandlerWrapper type for the ServeHTTP function
+type HandlerWrapper func(w http.ResponseWriter, r *http.Request)
+
+func (h *HandlerWrapper) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	HandleRequestAndRedirect(w, r)
 }
 
 func getRedirectTo(req *jsonrpc.RPC) (*string, *jsonrpc.ErrorObj) {

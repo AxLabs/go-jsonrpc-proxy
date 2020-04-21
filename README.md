@@ -1,6 +1,8 @@
-# go-jsonrpc-proxy
+> Simple JSON-RPC proxy based on RPC methods.
 
-Simple JSON-RPC proxy based on RPC methods.
+## How to Run
+
+TBD.
 
 ## Use Case
 
@@ -24,11 +26,15 @@ That's exactly what `go-jsonrpc-proxy` solves. :smiley:
 
 ## ToDos
 
+- [x] SSL support
+- [ ] Command line to support `--config=`
 - [ ] Rate limits for each declared method (using Redis)
 - [ ] Rate limits based on API keys (e.g., API key `X` 
 specified in the `Authorization` HTTP header can perform more 
 requests than API key `Y`)
 - [ ] More load balancer strategies. Nowadays forwarding hosts 
 are randomly chosen. 
+- [ ] Admin API to add/remove nodes to serve specific JSON-RPC 
+methods (or method patterns)
 - [ ] `docker-compose` file
 - [ ] Integration tests
