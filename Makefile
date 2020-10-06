@@ -30,3 +30,6 @@ $(CMD_DIR)/go-jsonrpc-proxy:
 	@echo "Building $@..."
 	@go build -i -o $(CMD_DIR)/go-jsonrpc-proxy -v $(PKG_GO_JSONRPC_PROXY)
 	@chmod u+x $(CMD_DIR)/go-jsonrpc-proxy
+
+clean:
+	@rm -df $(CMD_DIR)/go-jsonrpc-proxy
